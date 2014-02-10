@@ -1,0 +1,103 @@
+#!/usr/bin/perl -s
+# PODNAME: dmoss-helper
+# ABSTRACT: command line tool with helper functions
+
+use warnings;
+use strict;
+
+our $plugin;
+my $arg = shift;
+
+if ($plugin and $arg) {
+  my $code = template();
+  $code =~ s/__NAME__/$arg/g;
+  print $code;
+}
+
+sub template {
+  return<<'TMPL';
+package DMOSS::Plugin::__NAME__;
+# ABSTRACT: DMOSS fix me description
+use parent qw/DMOSS::Plugin/;
+
+our $VERSION = '0.01';
+
+use strict;
+use warnings;
+
+our @types = qw//;  # FIXME add types
+
+sub process {
+  my ($self, $dmoss, $file) = @_;
+
+  # do something ...
+
+  # add new attribute
+  #$dmoss->add_attr($name, $value);
+}
+
+sub reduce {
+  my ($self, $dmoss, @attrs) = @_;
+
+  # do something ...
+
+  # add new attribute
+  #$dmoss->add_attr($name, $value);
+}
+
+sub report {
+  my ($self, $dmoss, @attrs) = @_;
+
+  # do something
+
+  # return the grade, the name, and extra info
+  #return($grade, $name, $more);
+}
+
+1;
+TMPL
+}
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+dmoss-helper - command line tool with helper functions
+
+=head1 VERSION
+
+version 0.01_1
+
+=head1 SYNOPSIS
+
+    $ dmoss-helper -plugin NewPlugin
+
+=head1 DESCRIPTION
+
+This tool creates template files for some framework components, currently
+available templates are:
+
+=over
+
+=item C<-plugin>
+
+to create a new plugin.
+
+=back
+
+=head1 AUTHOR
+
+Nuno Carvalho <smash@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Project Natura <natura@natura.di.uminho.pt>.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

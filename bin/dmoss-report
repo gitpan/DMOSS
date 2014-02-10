@@ -1,0 +1,65 @@
+#!/usr/bin/perl -s -Ilib
+# PODNAME: dmoss-report
+# ABSTRACT: command line tool to create reports
+
+use warnings;
+use strict;
+no strict 'refs';
+
+our $stdin;
+
+use DMOSS;
+use DMOSS::Report::HTML;
+
+my $dmoss;
+if ($stdin) {
+  $dmoss = DMOSS::from_stdout();
+}
+else {
+  my $file = shift;
+  $file = 'dmoss.data' unless $file;
+  $dmoss = DMOSS::load($file);
+}
+
+my $report = DMOSS::Report::HTML->new($dmoss);
+print $report->output;
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+dmoss-report - command line tool to create reports
+
+=head1 VERSION
+
+version 0.01_1
+
+=head1 SYNOPSIS
+
+    $ dmoss-report > package-1.0.html
+
+=head1 DESCRIPTION
+
+C<dmoss-report> is a front-end to the DMOSS toolkit. It can be used
+to process a software package. The data is saved by debault to
+C<dmoss.data>.
+
+To build a report from the gathered data view the C<dmoss-report>
+tool.
+
+=head1 AUTHOR
+
+Nuno Carvalho <smash@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Project Natura <natura@natura.di.uminho.pt>.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

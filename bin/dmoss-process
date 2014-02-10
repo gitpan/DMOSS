@@ -1,0 +1,134 @@
+#!/usr/bin/perl -s -Ilib
+# PODNAME: dmoss-process
+# ABSTRACT: command line tool to process a software package
+
+use warnings;
+use strict;
+
+use DMOSS;
+use File::Fetch;
+use File::Copy;
+use File::Basename;
+use File::Path qw/make_path/;
+use File::Find;
+use Archive::Extract;
+use Data::Dumper;
+
+my $tmpdir = '/tmp/dmoss';
+my $targetdir = $tmpdir.'/'.int(rand(10000));
+make_path($targetdir) unless -e $targetdir;
+
+my $DEBUG = 0;
+our $f;
+our $u;
+our $stdout;
+my $source = shift;
+my $targetfile = '';
+
+unless ($f or $u) {
+  print "Error: suply a file or URL to process\n",
+    " \$ dmoss-process -f <file>\n",
+      " \$ dmoss-process -u <url>\n";
+  exit;
+}
+
+# get file if url
+if ($u) {
+	my $ff = File::Fetch->new(uri => $source);
+	$targetfile = $ff->fetch( to => $targetdir );
+}
+
+# copy file if file only
+if ($f) {
+	$targetfile = "$targetdir/".(basename $source);
+	copy($source, $targetfile);
+}
+
+my $basedir = $targetdir;
+if ($targetfile =~ m/(tgz|gz|zip|)$/i) {
+	my $ae = Archive::Extract->new( archive => $targetfile );
+	my $ok = $ae->extract( to => $targetdir );
+	$basedir = $ae->extract_path;
+}
+
+$basedir =~ s/(bin)\/?$//;
+
+print STDERR "targetfile $targetfile\n" if $DEBUG;
+print STDERR "basedir $basedir\n" if $DEBUG;
+
+# process basedir
+my @files;
+find(\&proc_file, $basedir);
+
+my $dmoss = DMOSS->new($basedir, @files);
+
+# clear previsou tmp data
+unless ($DEBUG) {
+  unlink  '/tmp/full_plain_text.txt' if -e '/tmp/full_plain_text.txt';
+  unlink  '/tmp/full_func_id.txt' if -e '/tmp/full_func_id.txt';
+}
+
+# process
+$dmoss->process;
+
+# final result
+if ($stdout) {
+  # print to stdout
+  print $dmoss->to_stdout;
+}
+else {
+  # save to default file
+  my $output = $dmoss->save;
+  print STDERR "Data saved as $output\n";
+}
+
+sub proc_file {
+	my $f = $File::Find::name;
+
+	return if -d $f;
+    push @files, $f;
+}
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+dmoss-process - command line tool to process a software package
+
+=head1 VERSION
+
+version 0.01_1
+
+=head1 SYNOPSIS
+
+    $ dmoss-process -f package-1.0.tgz
+    Data saved as dmoss.data
+
+    $ dmoss-process -u http://some_url/package-1.0.tgz
+    Data saved as dmoss.data
+
+=head1 DESCRIPTION
+
+C<dmoss-process> is a front-end to the DMOSS toolkit. It can be used
+to process a software package. The data is saved by debault to
+C<dmoss.data>.
+
+To build a report from the gathered data view the C<dmoss-report>
+tool.
+
+=head1 AUTHOR
+
+Nuno Carvalho <smash@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Project Natura <natura@natura.di.uminho.pt>.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

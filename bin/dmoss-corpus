@@ -1,0 +1,86 @@
+#!/usr/bin/perl
+# PODNAME: dmoss-corpus
+# ABSTRACT: command line tool to create a corpus
+
+use warnings;
+use strict;
+
+use File::Slurp qw/slurp/;
+use File::Find;
+use DMOSS::Oracle;
+use DMOSS::File;
+use HTML::FormatText::Html2text;
+
+my $root = shift;
+die unless $root;
+
+my $dispatcher = {
+  'README INSTALL TEXT'
+    => sub { `cat $_[0]` },
+  'MAN' => sub { `/usr/bin/man ./$_[0] | col -b` },
+  'HTML' => sub {
+      return HTML::FormatText::Html2text->format_file($_[0]);
+    }
+};
+
+my $ora = DMOSS::Oracle->new;
+find(\&proc_file, $root);
+
+sub proc_file {
+  return if $_ =~ m/^\.+$/;
+
+  my $name = $_;
+  my $path = $File::Find::name;
+  return if ($path =~ m/\.gen/ or -d $path);
+
+  my $file = DMOSS::File->new('', "$path/$name");
+  my $type = $ora->type($file);
+  return unless $type;
+  print STDERR "FILE $path <- TYPE $type\n";
+
+  foreach (keys %$dispatcher) {
+    if (grep {$type eq $_} split /\s+/, $_) {
+      print STDERR " + Adding by RE [$_]\n";
+      my $sub = $dispatcher->{$_};
+      print &$sub($name);
+    }
+  }
+}
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+dmoss-corpus - command line tool to create a corpus
+
+=head1 VERSION
+
+version 0.01_1
+
+=head1 SYNOPSIS
+
+    $ tar zxvf tree-1.5.3.tgz
+    $ dmoss-corpus tree-1.5.3/ > corpus.txt
+
+=head1 DESCRIPTION
+
+This tools' goal is to create a corpus of the software documentation,
+and other natural language content files. The corpus is printed to the
+standard output. The files type are computed by L<DMOSS::Oracle>.
+
+=head1 AUTHOR
+
+Nuno Carvalho <smash@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Project Natura <natura@natura.di.uminho.pt>.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
