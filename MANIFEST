@@ -6,6 +6,7 @@ META.yml
 Makefile.PL
 README
 bin/dmoss-corpus
+bin/dmoss-dump
 bin/dmoss-helper
 bin/dmoss-oracle
 bin/dmoss-process

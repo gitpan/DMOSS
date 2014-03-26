@@ -1,3 +1,15 @@
+0.01_2    2014-03-26 15:39:55WET+0000 Europe/Lisbon
+
+    * DMOSS::Oracle
+      + try to return mime type as last resort
+    * DMOSS::File
+      + add isfile attribute
+    * add dmoss-dump tool
+    * dmoss-process:
+      + remove file or url option, use a regexp to guess
+    * dmoss-corpus:
+      + handle Java files
+
 0.01_1    2014-02-10 21:12:27WET+0000 Europe/Lisbon
 
     * First release, still under heavy development.

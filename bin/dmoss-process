@@ -19,27 +19,22 @@ my $targetdir = $tmpdir.'/'.int(rand(10000));
 make_path($targetdir) unless -e $targetdir;
 
 my $DEBUG = 0;
-our $f;
-our $u;
 our $stdout;
 my $source = shift;
 my $targetfile = '';
 
-unless ($f or $u) {
+unless ($source) {
   print "Error: suply a file or URL to process\n",
-    " \$ dmoss-process -f <file>\n",
-      " \$ dmoss-process -u <url>\n";
+    " \$ dmoss-process <file|url>\n",
   exit;
 }
 
 # get file if url
-if ($u) {
+if ($source =~ m/^(http|ftp):\/\//) {
 	my $ff = File::Fetch->new(uri => $source);
 	$targetfile = $ff->fetch( to => $targetdir );
 }
-
-# copy file if file only
-if ($f) {
+else { # copy file if file only
 	$targetfile = "$targetdir/".(basename $source);
 	copy($source, $targetfile);
 }
@@ -101,14 +96,14 @@ dmoss-process - command line tool to process a software package
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 SYNOPSIS
 
-    $ dmoss-process -f package-1.0.tgz
+    $ dmoss-process package-1.0.tgz
     Data saved as dmoss.data
 
-    $ dmoss-process -u http://some_url/package-1.0.tgz
+    $ dmoss-process http://some_url/package-1.0.tgz
     Data saved as dmoss.data
 
 =head1 DESCRIPTION

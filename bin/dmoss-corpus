@@ -7,9 +7,13 @@ use strict;
 
 use File::Slurp qw/slurp/;
 use File::Find;
+use File::Copy;
+use File::Temp qw/tempdir/;
+use File::Which;
 use DMOSS::Oracle;
 use DMOSS::File;
 use HTML::FormatText::Html2text;
+use Path::Iterator::Rule;
 
 my $root = shift;
 die unless $root;
@@ -20,7 +24,8 @@ my $dispatcher = {
   'MAN' => sub { `/usr/bin/man ./$_[0] | col -b` },
   'HTML' => sub {
       return HTML::FormatText::Html2text->format_file($_[0]);
-    }
+    },
+  'JAVA' => sub { _handle_java($_[0]) },
 };
 
 my $ora = DMOSS::Oracle->new;
@@ -47,6 +52,25 @@ sub proc_file {
   }
 }
 
+sub _handle_java {
+  my $file = shift;
+  my $dir = tempdir( CLEANUP => 1 );
+
+  my $javadoc_bin = which('javadoc');
+  my $javadoc_opts = '-notimestamp -nodeprecatedlist -notree -noindex -nohelp -nonavbar -quiet'; 
+  return unless $javadoc_bin;
+
+  `$javadoc_bin $javadoc_opts -d $dir $file`;
+
+  my $target = $file;
+  $target =~ s/\.java$/\.html/i;
+  my $rule = Path::Iterator::Rule->new;
+  $rule->name($target);
+  foreach ( $rule->all($dir) ) {
+    return HTML::FormatText::Html2text->format_file($_);
+  }
+}
+
 __END__
 
 =pod
@@ -59,7 +83,7 @@ dmoss-corpus - command line tool to create a corpus
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 SYNOPSIS
 

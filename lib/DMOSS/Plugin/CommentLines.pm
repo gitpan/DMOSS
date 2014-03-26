@@ -1,5 +1,5 @@
 package DMOSS::Plugin::CommentLines;
-$DMOSS::Plugin::CommentLines::VERSION = '0.01_1';
+$DMOSS::Plugin::CommentLines::VERSION = '0.01_2';
 # ABSTRACT: DMOSS number of comment lines plugin
 use parent qw/DMOSS::Plugin/;
 use strict;
@@ -77,7 +77,7 @@ DMOSS::Plugin::CommentLines - DMOSS number of comment lines plugin
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 DESCRIPTION
 

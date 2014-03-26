@@ -1,5 +1,5 @@
 package DMOSS::Report::HTML;
-$DMOSS::Report::HTML::VERSION = '0.01_1';
+$DMOSS::Report::HTML::VERSION = '0.01_2';
 # ABSTRACT: DMOSS HTML report generator
 use parent qw/DMOSS::Report/;
 use strict;
@@ -154,7 +154,7 @@ DMOSS::Report::HTML - DMOSS HTML report generator
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 SYNOPSIS
 

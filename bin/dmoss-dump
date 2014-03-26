@@ -1,0 +1,51 @@
+#!/usr/bin/perl -s -Ilib
+# PODNAME: dmoss-dump
+# ABSTRACT: dump DMOSS data using Data::Dumper
+
+use warnings;
+use strict;
+
+use DMOSS;
+use Data::Dumper;
+
+my $file = shift;
+$file = 'dmoss.data' unless $file;
+
+my $dmoss = DMOSS::load($file);
+print Dumper $dmoss;
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+dmoss-dump - dump DMOSS data using Data::Dumper
+
+=head1 VERSION
+
+version 0.01_2
+
+=head1 SYNOPSIS
+
+    $ dmoss-dump <file.data>
+
+=head1 DESCRIPTION
+
+Dumps a DMOSS object using L<Data::Dumper>, by defaults uses the file
+C<dmoss.data>.
+
+=head1 AUTHOR
+
+Nuno Carvalho <smash@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Project Natura <natura@natura.di.uminho.pt>.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

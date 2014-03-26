@@ -1,5 +1,5 @@
 package DMOSS::Plugin::FunctionIdsDoc;
-$DMOSS::Plugin::FunctionIdsDoc::VERSION = '0.01_1';
+$DMOSS::Plugin::FunctionIdsDoc::VERSION = '0.01_2';
 # ABSTRACT: DMOSS number identifiers found in docs plugin
 use parent qw/DMOSS::Plugin/;
 use strict;
@@ -91,7 +91,7 @@ DMOSS::Plugin::FunctionIdsDoc - DMOSS number identifiers found in docs plugin
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 DESCRIPTION
 

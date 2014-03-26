@@ -6,13 +6,16 @@ use warnings;
 use strict;
 
 our $plugin;
+our $debug;
 my $arg = shift;
+my $arg2 = $debug ? shift : '';
 
 if ($plugin and $arg) {
   my $code = template();
   $code =~ s/__NAME__/$arg/g;
   print $code;
 }
+
 
 sub template {
   return<<'TMPL';
@@ -70,7 +73,7 @@ dmoss-helper - command line tool with helper functions
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 SYNOPSIS
 
@@ -88,6 +91,20 @@ available templates are:
 to create a new plugin.
 
 =back
+
+=head1 
+if ($debug and $arg and $arg2) {
+  use DMOSS;
+  use DMOSS::File;
+  use Data::Dumper;
+  $arg = "DMOESS::Plugin::$arg";
+  eval "require $arg";
+
+  my $file = DMOSS::File->new('', $arg2);
+  my $obj = $arg->new;
+  my $dmoss = DMOSS->new;
+  $obj->process($dmoss, $file);
+}
 
 =head1 AUTHOR
 

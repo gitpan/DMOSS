@@ -1,6 +1,6 @@
 package DMOSS::Attr;
 # ABSTRACT: DMOSS attribute object
-$DMOSS::Attr::VERSION = '0.01_1';
+$DMOSS::Attr::VERSION = '0.01_2';
 use strict;
 use warnings;
 
@@ -67,7 +67,7 @@ DMOSS::Attr - DMOSS attribute object
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 SYNOPSIS
 

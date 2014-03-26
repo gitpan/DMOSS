@@ -1,6 +1,6 @@
 package DMOSS::Report;
 # ABSTRACT: DMOSS base class for creating reports
-$DMOSS::Report::VERSION = '0.01_1';
+$DMOSS::Report::VERSION = '0.01_2';
 use strict;
 use warnings;
 
@@ -120,7 +120,7 @@ DMOSS::Report - DMOSS base class for creating reports
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 SYNOPSIS
 

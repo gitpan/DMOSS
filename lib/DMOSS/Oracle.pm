@@ -1,8 +1,10 @@
 package DMOSS::Oracle;
 # ABSTRACT: DMOSS file type oracle
-$DMOSS::Oracle::VERSION = '0.01_1';
+$DMOSS::Oracle::VERSION = '0.01_2';
 use strict;
 use warnings;
+
+use MIME::Types;
 
 sub new {
   my ($class) = @_;
@@ -20,13 +22,18 @@ sub type {
   return $type if $type;
   
   # second, some hand made RE
-  return 'README'   if ($file->basename =~ m/read.*?me/i);
-  return 'LICENSE'  if ($file->basename =~ m/licen.e/i);
-  return 'INSTALL'  if ($file->basename =~ m/install/i);
+  return 'README'   if ($file->basename =~ m/^read.*?me$/i);
+  return 'LICENSE'  if ($file->basename =~ m/^licen.e$/i);
+  return 'INSTALL'  if ($file->basename =~ m/^install$/i);
   return 'MAN'      if ($file->path =~ m/\/man\//i);
-  return 'MAKEFILE' if ($file->basename =~ m/makefile/i);
+  return 'MAKEFILE' if ($file->basename =~ m/^makefile$/i);
   return 'TEXT'     if ($file->basename =~ m/\.txt$/i);
-  return 'CHANGES'  if ($file->basename =~ m/changes/i);
+  return 'CHANGES'  if ($file->basename =~ m/^changes*(log)*$/i);
+
+  # third, try to return mime type
+  my $types = MIME::Types->new;
+  my $mime = $types->mimeTypeOf($file->fullpath);
+  return $mime if $mime;
 
   # no type found
   return undef;
@@ -122,7 +129,7 @@ DMOSS::Oracle - DMOSS file type oracle
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 SYNOPSIS
 

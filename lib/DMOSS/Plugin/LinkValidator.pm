@@ -1,5 +1,5 @@
 package DMOSS::Plugin::LinkValidator;
-$DMOSS::Plugin::LinkValidator::VERSION = '0.01_1';
+$DMOSS::Plugin::LinkValidator::VERSION = '0.01_2';
 # ABSTRACT: DMOSS link validator plugin
 use parent qw/DMOSS::Plugin/;
 use strict;
@@ -103,7 +103,7 @@ DMOSS::Plugin::LinkValidator - DMOSS link validator plugin
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 DESCRIPTION
 

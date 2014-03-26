@@ -1,6 +1,6 @@
 package DMOSS::File;
 # ABSTRACT: DMOSS file object
-$DMOSS::File::VERSION = '0.01_1';
+$DMOSS::File::VERSION = '0.01_2';
 use strict;
 use warnings;
 
@@ -18,6 +18,7 @@ sub new {
   $path =~ s/$basedir//g if $path;
   $path =~ s/^\/+//g if $path;
   $self->{path} = $path;
+  $self->{isfile} = 1 unless ($fullpath and -d $fullpath);
 
   #$self->content(slurp $fullpath) if -e $fullpath;
 
@@ -66,6 +67,13 @@ sub content {
   return $self->{content};
 }
 
+sub isfile {
+  my ($self, $isfile) = @_;
+  $self->{isfile} = $isfile if $isfile;
+
+  return $self->{isfile};
+}
+
 1;
 
 __END__
@@ -80,7 +88,7 @@ DMOSS::File - DMOSS file object
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 SYNOPSIS
 
@@ -121,6 +129,10 @@ The file type.
 =head2 content
 
 The file content.
+
+=head2 isfile
+
+C<True> if file is a plain file, C<False> if file is a directory.
 
 =head1 AUTHOR
 

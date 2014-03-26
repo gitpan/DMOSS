@@ -19,6 +19,7 @@ my %WriteMakefileArgs = (
   "DISTNAME" => "DMOSS",
   "EXE_FILES" => [
     "bin/dmoss-corpus",
+    "bin/dmoss-dump",
     "bin/dmoss-helper",
     "bin/dmoss-oracle",
     "bin/dmoss-process",
@@ -36,11 +37,15 @@ my %WriteMakefileArgs = (
     "File::Find" => 0,
     "File::Path" => 0,
     "File::Slurp" => 0,
+    "File::Temp" => 0,
+    "File::Which" => 0,
     "HTML::FormatText::Html2text" => 0,
     "HTTP::Request" => 0,
     "LWP::UserAgent" => 0,
     "Lingua::Identify" => 0,
+    "MIME::Types" => 0,
     "Module::Find" => 0,
+    "Path::Iterator::Rule" => 0,
     "Software::License" => 0,
     "Software::LicenseUtils" => 0,
     "Storable" => 0,
@@ -53,7 +58,7 @@ my %WriteMakefileArgs = (
   "TEST_REQUIRES" => {
     "Test::More" => 0
   },
-  "VERSION" => "0.01_1",
+  "VERSION" => "0.01_2",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -70,11 +75,15 @@ my %FallbackPrereqs = (
   "File::Find" => 0,
   "File::Path" => 0,
   "File::Slurp" => 0,
+  "File::Temp" => 0,
+  "File::Which" => 0,
   "HTML::FormatText::Html2text" => 0,
   "HTTP::Request" => 0,
   "LWP::UserAgent" => 0,
   "Lingua::Identify" => 0,
+  "MIME::Types" => 0,
   "Module::Find" => 0,
+  "Path::Iterator::Rule" => 0,
   "Software::License" => 0,
   "Software::LicenseUtils" => 0,
   "Storable" => 0,

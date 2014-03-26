@@ -26,7 +26,7 @@ if ($g) {
 
 my $file = DMOSS::File->new('', $arg);
 my $type = $ora->type($file);
-print $type, "\n";
+print $type, "\n" if $type;
 
 __END__
 
@@ -40,7 +40,7 @@ dmoss-oracle - command line tool for the DMOSS Oracle
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 SYNOPSIS
 

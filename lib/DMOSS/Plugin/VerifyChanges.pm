@@ -1,5 +1,5 @@
 package DMOSS::Plugin::VerifyChanges;
-$DMOSS::Plugin::VerifyChanges::VERSION = '0.01_1';
+$DMOSS::Plugin::VerifyChanges::VERSION = '0.01_2';
 # ABSTRACT: DMOSS changes plugin
 use parent qw/DMOSS::Plugin/;
 use strict;
@@ -14,6 +14,8 @@ sub name { 'Verify Changes' }
 
 sub process {
   my ($self, $dmoss, $file) = @_;
+  my @local = localtime;
+  my $current = $local[5]+1900;
 
   open(my $fh, '<', $file->fullpath);
   $/ = '';
@@ -21,8 +23,12 @@ sub process {
   while (<$fh>) {
     my ($year, $ver);
     $year = $1 if $_ =~ m/(\d{4})/;
+    next unless ($year and $year > 1970 and $year <= $current);
+
     $ver = $1 if $_ =~ m/(\d+\.\d+)/;
-    push @{$years->{$year}}, $ver if $year;
+
+    if ($ver) { push @{$years->{$year}}, $ver; }
+    else { $years->{$year} = [] unless $years->{$year}; }
   }
 
   my @years = sort {$b<=>$a} keys %$years;
@@ -44,7 +50,8 @@ sub report {
   my $final;
   foreach (sort {$b<=>$a} keys %{ $attr->value->{years} }) {
     next unless $attr->value->{years}->{$_};
-    push @$final, [ $_, join(', ', @{$attr->value->{years}->{$_}}) ];
+    my @l = @{$attr->value->{years}->{$_}};
+    push @$final, [ $_, @l ? join(', ', @l) : 'Unknown' ];
   }
 
   return $final;
@@ -86,7 +93,7 @@ DMOSS::Plugin::VerifyChanges - DMOSS changes plugin
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 DESCRIPTION
 

@@ -1,5 +1,5 @@
 package DMOSS::Plugin::VerifyLicense;
-$DMOSS::Plugin::VerifyLicense::VERSION = '0.01_1';
+$DMOSS::Plugin::VerifyLicense::VERSION = '0.01_2';
 # ABSTRACT: DMOSS fix me description
 use parent qw/DMOSS::Plugin/;
 
@@ -75,7 +75,7 @@ DMOSS::Plugin::VerifyLicense - DMOSS fix me description
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 DESCRIPTION
 

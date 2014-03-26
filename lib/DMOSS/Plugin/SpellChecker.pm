@@ -1,5 +1,5 @@
 package DMOSS::Plugin::SpellChecker;
-$DMOSS::Plugin::SpellChecker::VERSION = '0.01_1';
+$DMOSS::Plugin::SpellChecker::VERSION = '0.01_2';
 # ABSTRACT: DMOSS spell checker validator plugin
 use parent qw/DMOSS::Plugin/;
 use strict;
@@ -85,7 +85,7 @@ DMOSS::Plugin::SpellChecker - DMOSS spell checker validator plugin
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 DESCRIPTION
 

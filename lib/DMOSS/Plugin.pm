@@ -1,6 +1,6 @@
 package DMOSS::Plugin;
 # ABSTRACT: DMOSS base class for plugins
-$DMOSS::Plugin::VERSION = '0.01_1';
+$DMOSS::Plugin::VERSION = '0.01_2';
 use strict;
 use warnings;
 
@@ -58,7 +58,7 @@ DMOSS::Plugin - DMOSS base class for plugins
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 SYNOPSIS
 

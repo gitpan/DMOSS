@@ -1,5 +1,5 @@
 package DMOSS::Plugin::AutoClassify;
-$DMOSS::Plugin::AutoClassify::VERSION = '0.01_1';
+$DMOSS::Plugin::AutoClassify::VERSION = '0.01_2';
 # ABSTRACT: DMOSS classification plugin
 use parent qw/DMOSS::Plugin/;
 use strict;
@@ -197,8 +197,10 @@ sub process {
     my @words = ();
     if ($dois =~ m/\s/) { @words = split /\s+/, $dois; }
     else { push @words, $dois; }
+print Dumper \@words;
 
     my $curr = findAll($c, @words);
+print "curr $curr\n";
     if ($curr > $last) {
       $last = $curr;
       $second = $dois;
@@ -257,7 +259,7 @@ DMOSS::Plugin::AutoClassify - DMOSS classification plugin
 
 =head1 VERSION
 
-version 0.01_1
+version 0.01_2
 
 =head1 DESCRIPTION
 
